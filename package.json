@@ -12,6 +12,8 @@
     "build": "yarn clear && NODE_ENV=production parcel build src/index.js",
     "clear": "rimraf dist",
     "lint": "eslint src",
+    "prepublish": "yarn build",
+    "preversion": "yarn test",
     "test": "jest test",
     "test:ci": "yarn lint && yarn test -- --coverage"
   },
