@@ -15,7 +15,7 @@
     "prepublish": "yarn build",
     "preversion": "yarn test",
     "test": "jest test",
-    "test:ci": "yarn lint && yarn test -- --coverage"
+    "test:ci": "yarn lint && yarn test --coverage"
   },
   "repository": {
     "type": "git",
