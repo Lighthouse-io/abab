@@ -1,0 +1,67 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:8
+  working_directory: ~/abab
+
+version: 2
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: 
+          name: Grant NPM repository access
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run:
+          name: Install dependencies
+          command: yarn
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Test
+          command: yarn test:ci
+      - store_artifacts:
+          path: ./coverage
+      - persist_to_workspace:
+          root: ~/abab
+          paths: .
+
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/abab
+      - run:
+          name: Publish Package
+          command: |
+            wget http://stedolan.github.io/jq/download/linux64/jq
+            chmod +x ./jq
+            LOCAL_VERSION=$(cat package.json | ./jq  --raw-output '.version')
+            NPM_VERSION_INFO=$(/usr/local/bin/npm view @lighthouse/abab@${LOCAL_VERSION})
+
+            if [[ $NPM_VERSION_INFO ]]
+            then
+              echo "Package ${PACKAGE_VERSION} already published, skipping...."
+            else
+              echo "Publishing ${PACKAGE_VERSION}"
+              npm publish
+            fi
+
+workflows:
+  version: 2
+  test-deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+                only: master

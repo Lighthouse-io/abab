@@ -1,10 +1,8 @@
-"use strict";
-
 /**
  * Implementation of atob() according to the HTML and Infra specs, except that
  * instead of throwing INVALID_CHARACTER_ERR we return null.
  */
-function atob(data) {
+export function atob(data) {
   // Web IDL requires DOMStrings to just be converted using ECMAScript
   // ToString, which in our case amounts to using a template literal.
   data = `${data}`;
@@ -104,4 +102,3 @@ function atobLookup(chr) {
   return undefined;
 }
 
-module.exports = atob;

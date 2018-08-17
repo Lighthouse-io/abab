@@ -1,0 +1,11 @@
+{
+  "modulePaths": [
+    "<rootDir>/src"
+  ],
+  "testPathDirs": ["test"],
+  "testResultsProcessor": "<rootDir>/node_modules/jest-junit-reporter",
+  "transform": {
+    ".*": "<rootDir>/node_modules/babel-jest"
+  },
+  "verbose": true
+}

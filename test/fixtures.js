@@ -1,26 +1,24 @@
-"use strict";
+import { stripChars } from './util'
 
-const { stripChars } = require("./util");
-
-const fixtures = {};
+const fixtures = {}
 
 function charCodeArrayToString(expected) {
   if (Array.isArray(expected)) {
-    return String.fromCharCode(...expected);
+    return String.fromCharCode(...expected)
   }
-  return expected;
+  return expected
 }
 
-module.exports.get = function (key) {
+export function get(key) {
   return fixtures[key].map(fixture => {
     return {
       input: fixture[0],
       expected: charCodeArrayToString(fixture[1]),
       inputDescriptor: stripChars(fixture[0]),
       expectedDescriptor: stripChars(fixture[1])
-    };
-  });
-};
+    }
+  })
+}
 
 fixtures.atob = [
   ["", []],
@@ -119,15 +117,15 @@ fixtures.atob = [
   [-0, null],
   [
     { toString() {
-      return "foo";
+      return "foo"
     } }, [126, 138]
   ],
   [
     { toString() {
-      return "abcd";
+      return "abcd"
     } }, [105, 183, 29]
   ]
-];
+]
 
 fixtures.btoa = [
   ["עברית", null],
@@ -158,10 +156,10 @@ fixtures.btoa = [
   [-0, [77, 65, 61, 61]],
   [
     { toString() {
-      return "foo";
+      return "foo"
     } }, [90, 109, 57, 118]
   ]
-];
+]
 
 // These are cases in which IE's atob behavior is divergent
 // from other implementations. We currently skip these cases.
@@ -178,4 +176,4 @@ module.exports.ieExempt = [
   "ab\t\n\f\r cd",
   " \t\n\f\r ab\t\n\f\r cd\t\n\f\r ",
   "ab\t\n\f\r =\t\n\f\r =\t\n\f\r "
-];
+]

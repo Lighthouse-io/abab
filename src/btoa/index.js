@@ -1,10 +1,8 @@
-"use strict";
-
 /**
  * btoa() as defined by the HTML and Infra specs, which mostly just references
  * RFC 4648.
  */
-function btoa(s) {
+export function btoa(s) {
   let i;
   // String conversion as required by Web IDL.
   s = `${s}`;
@@ -62,5 +60,3 @@ function btoaLookup(idx) {
   // Throw INVALID_CHARACTER_ERR exception here -- won't be hit in the tests.
   return undefined;
 }
-
-module.exports = btoa;
