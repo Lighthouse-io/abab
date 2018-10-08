@@ -1,3 +1,20 @@
 {
-  "presets": [["env", { module: false }]]
+  "presets": [
+    [
+      "env", {
+        "modules": false,
+        "targets": {
+          "browsers": [
+            "> 5% in US",
+            "IE >= 11"
+          ]
+        }
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "presets": [["env"]]
+    }
+  }
 }
