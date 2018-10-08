@@ -3,10 +3,8 @@
   "version": "0.0.3",
   "description": "WHATWG spec-compliant implementations of window.atob and window.btoa.",
   "main": "dist/index.js",
-  "module": "src/index.js",
   "files": [
-    "dist/",
-    "src/"
+    "dist/"
   ],
   "scripts": {
     "build": "yarn clear && NODE_ENV=production parcel build src/index.js",
